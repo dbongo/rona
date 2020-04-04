@@ -40,6 +40,29 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: counties; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.counties (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    fips character varying(5),
+    name character varying,
+    state_id uuid,
+    country_id uuid,
+    last_update timestamp without time zone,
+    lat double precision,
+    long double precision,
+    confirmed integer DEFAULT 0,
+    deaths integer DEFAULT 0,
+    recovered integer DEFAULT 0,
+    active integer DEFAULT 0,
+    fullname character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
 -- Name: countries; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -139,6 +162,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: counties counties_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.counties
+    ADD CONSTRAINT counties_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: countries countries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -171,6 +202,27 @@ ALTER TABLE ONLY public.states
 
 
 --
+-- Name: index_counties_on_country_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_counties_on_country_id ON public.counties USING btree (country_id);
+
+
+--
+-- Name: index_counties_on_fips; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_counties_on_fips ON public.counties USING btree (fips);
+
+
+--
+-- Name: index_counties_on_state_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_counties_on_state_id ON public.counties USING btree (state_id);
+
+
+--
 -- Name: index_countries_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -192,13 +244,6 @@ CREATE UNIQUE INDEX index_states_on_fips ON public.states USING btree (fips);
 
 
 --
--- Name: index_states_on_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_states_on_name ON public.states USING btree (name);
-
-
---
 -- PostgreSQL database dump complete
 --
 
@@ -207,6 +252,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('20200404004817'),
 ('20200404111351'),
-('20200404112019');
+('20200404112019'),
+('20200404160933');
 
 

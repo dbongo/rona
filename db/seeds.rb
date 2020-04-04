@@ -50,3 +50,44 @@ state_rows.each do |row|
 
   state.save
 end
+
+cases = CSV.read('storage/COVID-19/data/cases.csv')
+headings = cases.shift
+
+cases.each do |row|
+  fips = row.shift
+  name = row.shift
+
+  state = State.find_by name: row.shift
+  next if state.nil?
+
+  county = state.counties.new
+
+  country = state.country
+
+  county.country_id = country.id
+
+  country_str = row.shift
+  last_update = row.shift
+
+  county.fips = fips
+  county.name = name
+
+  unless last_update.nil?
+    begin
+      county.last_update = DateTime.parse last_update
+    rescue
+      county.last_update = DateTime.now
+    end
+  end
+
+  county.lat       = row.shift.to_f
+  county.long      = row.shift.to_f
+  county.confirmed = row.shift.to_i
+  county.deaths    = row.shift.to_i
+  county.recovered = row.shift.to_i
+  county.active    = row.shift.to_i
+  county.fullname  = row.shift
+
+  county.save
+end
