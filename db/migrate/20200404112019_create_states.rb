@@ -6,8 +6,8 @@ class CreateStates < ActiveRecord::Migration[6.0]
       t.references :country, type: :uuid
       t.string     :name
       t.datetime   :last_update, null: true
-      t.float       :lat
-      t.float       :long
+      t.float      :lat
+      t.float      :long
       t.integer    :confirmed,  null: true,  default: 0
       t.integer    :deaths,    null: true,  default: 0
       t.integer    :recovered, null: true,  default: 0
