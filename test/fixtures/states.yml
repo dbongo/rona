@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fips: MyString
+  name: MyString
+  last_update: 2020-04-04 06:20:19
+  lat: 1.5
+  long: 1.5
+  confirmed: 1
+  deaths: 1
+  recovered: 1
+  active: 1
+
+two:
+  fips: MyString
+  name: MyString
+  last_update: 2020-04-04 06:20:19
+  lat: 1.5
+  long: 1.5
+  confirmed: 1
+  deaths: 1
+  recovered: 1
+  active: 1

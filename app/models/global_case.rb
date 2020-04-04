@@ -1,2 +1,0 @@
-class GlobalCase < ApplicationRecord
-end

@@ -10,27 +10,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_04_004817) do
+ActiveRecord::Schema.define(version: 2020_04_04_112019) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "global_cases", force: :cascade do |t|
-    t.string "fips", limit: 5
-    t.string "county_name"
-    t.string "province_state"
-    t.string "country_region", null: false
-    t.date "last_update"
-    t.float "latitude"
-    t.float "longitude"
+  create_table "countries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.datetime "last_update"
+    t.float "lat"
+    t.float "long"
     t.integer "confirmed", default: 0
     t.integer "deaths", default: 0
     t.integer "recovered", default: 0
     t.integer "active", default: 0
-    t.string "combined_key"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["fips"], name: "index_global_cases_on_fips", unique: true
+    t.index ["name"], name: "index_countries_on_name", unique: true
+  end
+
+  create_table "globe", force: :cascade do |t|
+    t.datetime "last_update"
+    t.integer "confirmed", default: 0
+    t.integer "deaths", default: 0
+    t.integer "recovered", default: 0
+    t.integer "active", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "states", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "fips"
+    t.uuid "country_id"
+    t.string "name"
+    t.datetime "last_update"
+    t.float "lat"
+    t.float "long"
+    t.integer "confirmed", default: 0
+    t.integer "deaths", default: 0
+    t.integer "recovered", default: 0
+    t.integer "active", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["country_id"], name: "index_states_on_country_id"
+    t.index ["fips"], name: "index_states_on_fips", unique: true
   end
 
 end
