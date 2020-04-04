@@ -1,0 +1,3 @@
+[submodule "storage/COVID-19"]
+	path = storage/COVID-19
+	url = git@github.com:CSSEGISandData/COVID-19.git
